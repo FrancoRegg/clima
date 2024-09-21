@@ -24,11 +24,13 @@ const [localizacion, setLocalizacion] = useState(null)
   
    const geoInversa = async () => { //Genero un geocodificacion inversa 
     if(coords.latitud && coords.longitud){
-    const URL = `https://us1.locationiq.com/v1/reverse?key=pk.bb957299e7910f56a63a888ddb2f7992&lat=${coords.latitud}&lon=${coords.longitud}&format=json`
+    const URL = `https://api.weatherapi.com/v1/forecast.json?key=a6e61a741ad94b46a0d173802242009 &q=${coords.latitud},${coords.longitud}&days=7&aqi=yes&alerts=yes`
     try{
       const respuesta = await fetch (URL)
       const data = await respuesta.json()
       setLocalizacion(data)
+      console.log("Datos", data);
+      
     }catch (error){
       console.log(error);
     }
@@ -46,7 +48,7 @@ const [localizacion, setLocalizacion] = useState(null)
   return (
     <>
     <h1>Mi ubicación</h1>
-    {localizacion ? <h3>{localizacion.address.city}</h3> : <h3>Cargando...</h3>}
+    
     </>
   )
 }
