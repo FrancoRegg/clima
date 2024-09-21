@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 
 export const Ubicacion = () => {
 const [coords, setCoords] = useState({latitud: null, longitud: null})
-const [localizacion, setLocalizacion] = useState(null)
+const [datos, setDatos] = useState(null)
 
   const options = {
     enableHighAccuracy: true, //Entrega las mejores coordenadas posibles.
@@ -21,14 +21,16 @@ const [localizacion, setLocalizacion] = useState(null)
   useEffect(()=>{
     navigator.geolocation.getCurrentPosition(success, error, options);
   }, [])
-  
-   const geoInversa = async () => { //Genero un geocodificacion inversa 
+
+
+  //Obtengo todo tipos de datos desde la API
+  const datosClima = async () => { 
     if(coords.latitud && coords.longitud){
     const URL = `https://api.weatherapi.com/v1/forecast.json?key=a6e61a741ad94b46a0d173802242009 &q=${coords.latitud},${coords.longitud}&days=7&aqi=yes&alerts=yes`
     try{
       const respuesta = await fetch (URL)
       const data = await respuesta.json()
-      setLocalizacion(data)
+      setDatos(data)
       console.log("Datos", data);
       
     }catch (error){
@@ -41,7 +43,7 @@ const [localizacion, setLocalizacion] = useState(null)
 
   useEffect(()=>{ 
     if(coords.latitud && coords.longitud){
-      geoInversa()
+      datosClima()
     }
   }, [coords])
   
